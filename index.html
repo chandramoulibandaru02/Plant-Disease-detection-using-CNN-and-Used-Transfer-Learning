@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🌱 Plant Disease Detection</title>
+  <link rel="stylesheet" href="style.css"> <!-- External CSS -->
+</head>
+<body>
+  <div class="container">
+    <h1>🌱 Plant Disease Detection</h1>
+
+    <input type="file" id="fileInput" accept="image/*">
+    <br><br>
+    <button class="btn" onclick="sendImage()">Predict</button>
+
+    <p id="result">Prediction will appear here...</p>
+    <img id="preview" />
+  </div>
+
+  <script>
+    async function sendImage() {
+      let fileInput = document.getElementById("fileInput");
+      let file = fileInput.files[0];
+      if (!file) {
+        alert("Please upload an image first!");
+        return;
+      }
+
+      // Show preview
+      document.getElementById("preview").src = URL.createObjectURL(file);
+
+      // Send image to Gradio API
+      let response = await fetch("https://9b9b1b848032e9c375.gradio.live/api/predict/", {
+  method: "POST",
+  body: formData
+});
+
+let result = await response.json();
+console.log(result);   // ✅ see the full response in browser console
+document.getElementById("result").innerText = "Prediction: " + result.data[0];
+
+    }
+  </script>
+</body>
+</html>
